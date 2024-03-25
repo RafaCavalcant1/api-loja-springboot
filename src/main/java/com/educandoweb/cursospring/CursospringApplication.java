@@ -10,4 +10,5 @@ public class CursospringApplication {
 		SpringApplication.run(CursospringApplication.class, args);
 	}
 
+	
 }
