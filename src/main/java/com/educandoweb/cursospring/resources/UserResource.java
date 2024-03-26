@@ -14,7 +14,9 @@ public class UserResource {
 
 	@GetMapping
 	public ResponseEntity<User> retornaUsuario(){
+		//instanciando um usuário apena spara fzer um teste
 		User u = new User(1l, "Maria", "maria@gmail.com", "99999999", "12345");
+		// vai retornar o corpo desse usuário
 		return ResponseEntity.ok().body(u);
 	}
 }

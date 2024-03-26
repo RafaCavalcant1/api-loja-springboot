@@ -1,13 +1,26 @@
 package com.educandoweb.cursospring.entities;
 
+
 import java.io.Serializable;
 import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-// criandi a classe de usuário
+// criando a classe de usuário
 // o serializable é para fazer com que os objetos da classe possam ser transformados em bytes para serem armazenados ou transmitidos
+@Entity
+@Table(name= "tb_user") // a tabela user é uma palavra especial no BD h2 então foi neessario renomear para não dar conflito
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;  // nnúmero de série padrao 
+	
+	//indica que o id é a PK do banco de dados 
+	@Id 
+	// para fazer com que o id fique autoincrementavel 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
