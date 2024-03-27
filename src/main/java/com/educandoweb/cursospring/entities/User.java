@@ -2,11 +2,14 @@ package com.educandoweb.cursospring.entities;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 // criando a classe de usuário
@@ -27,6 +30,11 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	
+	// o muitospara 1 na classe pedido está mapeado  por client
+	@OneToMany(mappedBy = "client")
+	// um cliente pode ter vários pedidos  então aqui vem uma lista da classe pedidos e já está instanciada
+	private List<Order> orders = new ArrayList<Order>();
+	
 	//construtor vazio pois está sendo usado um framework
 	public User() {	
 	}
@@ -38,6 +46,7 @@ public class User implements Serializable {
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
+		
 	}
 
 	public Long getId() {
@@ -79,6 +88,10 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
 
 	// implementar a comparação e o hashcode de objetos
 	@Override
@@ -97,6 +110,8 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	
 	
 	
 }
