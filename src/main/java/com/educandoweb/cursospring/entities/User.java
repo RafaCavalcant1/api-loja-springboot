@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +33,7 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 	
+	@JsonIgnore //para não ficar um loop infinito 
 	// o muitospara 1 na classe pedido está mapeado  por client
 	@OneToMany(mappedBy = "client")
 	// um cliente pode ter vários pedidos  então aqui vem uma lista da classe pedidos e já está instanciada
