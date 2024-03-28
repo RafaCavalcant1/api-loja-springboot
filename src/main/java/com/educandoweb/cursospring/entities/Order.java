@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.educandoweb.cursospring.entities.enums.OrderStatus;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,8 @@ public class Order implements Serializable {
 	private Long id;
 	private Instant moment; // instant é tipo DATE 
 	
+	// colocando o integer para dizer explicitamente que estou gravando no BD um numero inteiro
+	private Integer orderStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id") // criação da chave estrangeira e seu nome é  "client_id"
@@ -34,11 +38,13 @@ public class Order implements Serializable {
 	public Order() {	
 	}
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment,OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
-		this.client = client;
+		// chmando o set pois nele eu coloquei  para virar um inteiro, e aqui tem que estar assim tb
+		setOrderStatus(orderStatus);
+		this.client = client;	
 	}
 
 	public Long getId() {
@@ -55,6 +61,17 @@ public class Order implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+
+	// pegando o numero inteiro interno da classe e convertendo em orderStatus 
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if(orderStatus != null) {
+		this.orderStatus = orderStatus.getCode();
+		}
 	}
 
 	public User getClient() {
