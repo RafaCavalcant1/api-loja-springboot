@@ -1,16 +1,18 @@
 package com.educandoweb.cursospring.entities;
-
+//um produto pode ter varias categorias e uma categoria pode ter varios produtos 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_category")
@@ -28,7 +30,8 @@ public class Category implements Serializable {
 	// o set é para garantir que eu não vou ter um produto com mais de uma ocorrencia na mesma categoria (o msm produto não pode ter uma mesma categoria mais de uma vez)
 	// instanciando para garantir que a coleção não comece nula, e sim, vazia 
 	//hashSet pq o set é uma interface e não poode ser instanciado, tem que usar uma classe corresondente a essa interface
-	@Transient
+	@JsonIgnore // para não ficar o loop infinito no postman
+	@ManyToMany(mappedBy = "categories") // referencia ao mapeamento que está na classe de produtos
 	private Set<Product> products = new HashSet<>();
 	
 	public Category() {

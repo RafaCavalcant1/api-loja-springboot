@@ -71,6 +71,17 @@ public class TestConfig implements CommandLineRunner {
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		//falando qual categoria  é de cada produto 
+		p1.getCategories().add(cat2);// o produto P1 dentro da coleção de categoria está o obj cat2
+		p2.getCategories().add(cat1);
+		p2.getCategories().add(cat3);
+		p3.getCategories().add(cat3);
+		p4.getCategories().add(cat3);
+		p5.getCategories().add(cat2);
+		
+		// agora precisa salvar essas associações de produto na sua categoria
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 	}
 
 	
