@@ -35,7 +35,7 @@ public class Product implements Serializable {
 	// instanciando para garantir que a coleção não comece nula, e sim, vazia 
 	//hashSet pq o set é uma interface e não poode ser instanciado, tem que usar uma classe corresondente a essa interface
 	
-	@ManyToMany(fetch = FetchType.EAGER)//mapeamento para transformar  as coleções que tem nas duas classes na tabela de associação
+	@ManyToMany(fetch = FetchType.EAGER)//mapeamento para transformar  as coleções que tem nas duas classes na tabela de associação, sso fará com que o Hibernate carregue as categorias imediatamente quando o produto for carregado, evitando a exceção.
 	@JoinTable(name = "tb_product_categoy", joinColumns = @JoinColumn(name= "product_id"),// define qual vai ser o nome da tabela no BD e a chave estrangeira da tabela produto
 	inverseJoinColumns = @JoinColumn(name = "category_id"))  // define a chave estrangeira da outra entidade(categorias)
 	private Set<Category> categories = new HashSet<>();

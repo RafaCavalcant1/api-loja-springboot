@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.educandoweb.cursospring.entities.Category;
 import com.educandoweb.cursospring.entities.Order;
+import com.educandoweb.cursospring.entities.OrderItem;
 import com.educandoweb.cursospring.entities.Product;
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.entities.enums.OrderStatus;
 import com.educandoweb.cursospring.repositories.CategoryRepository;
+import com.educandoweb.cursospring.repositories.OrderItemRepository;
 import com.educandoweb.cursospring.repositories.OrderRepository;
 import com.educandoweb.cursospring.repositories.ProductRepository;
 import com.educandoweb.cursospring.repositories.UserRepository;
@@ -37,6 +39,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired // para associar uma instancia do ProductRepository no testeconfig e usar no BD
 	private ProductRepository productRepository;
+	
+	@Autowired // para associar uma instancia do ProductRepository no testeconfig e usar no BD
+	private OrderItemRepository orderItemRepository;
 	
 	// tudo que colocar dentro desse método run(ele veio do implements) vai ser executado
 	@Override
@@ -82,8 +87,17 @@ public class TestConfig implements CommandLineRunner {
 		
 		// agora precisa salvar essas associações de produto na sua categoria
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		// objetos do ORDERITEM
+		//o orderItem O1 é um item de  pedido do pedido 1, produto 1 quantidade 2,  e o preço est´reproduzindo do P1
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice()); 
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
 	}
 
-	
 	
 }
