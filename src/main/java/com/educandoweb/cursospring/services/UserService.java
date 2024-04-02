@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.repositories.UserRepository;
+import com.educandoweb.cursospring.services.exceptions.ResourceNotFoundException;
 
 @Service //registra a classe como um componente do spring e permite que ele seja injetado 
 public class UserService {
@@ -26,8 +27,8 @@ public class UserService {
 	public User findById(Long id) {
 		//cha o repositorio pelo ID mas essa operação retorna um obj OPTIONAL do tipo USER, coloquei objeto como nome da variável
 		Optional<User> objeto = repository.findById(id);
-		// a operação get do OPTIONAL retorna o obj tipo User que estiver dentro do optional
-		return objeto.get();
+		//o orElseTrhrow ele tenta da o get, se n tiver usiario ele lça a exceção
+		return objeto.orElseThrow(()-> new ResourceNotFoundException(id));
 	}
 	
 	//retorna o usuario salvo 
@@ -41,14 +42,14 @@ public class UserService {
 	}
 	
 	//atualizar um dado do usuario
-	@Transactional
+	@Transactional//para garantir que as operações sejam executadas dentro de uma transação
 	public User update(Long id, User obj) { // recebe o id e o novo obj
 		User entity = repository.getReferenceById(id); // getReferenceById(id) prepara o obj monitorado para mexer e dps fazer uma operação com o BD
 		updateData(entity, obj);
 		return repository.save(entity);
 	}
 
-	// atualizar os dados do entity do que cheb=gou com o obj 
+	// atualizar os dados do entity do que chegou com o obj 
 	private void updateData(User entity, User obj) {
 		entity.setName(obj.getName());
 		entity.setEmail(obj.getEmail());
