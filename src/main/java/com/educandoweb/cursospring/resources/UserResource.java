@@ -1,13 +1,19 @@
 package com.educandoweb.cursospring.resources;
 
+import java.net.URI;
 import java.util.List;
+
+import javax.tools.DocumentationTool.Location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.services.UserService;
@@ -34,4 +40,13 @@ public class UserResource {
 		User objeto = service.findById(id);
 		return ResponseEntity.ok().body(objeto);
 	}
+	
+	// inserir no banco de dados um novo obj do tipu user 
+	@PostMapping //usado para inserir um novo recurso 
+	public ResponseEntity<User>insert(@RequestBody User obj){ //requestBody épara dizer que o obj vai chegar no tipo JSON 
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();	
+		return ResponseEntity.created(uri).body(obj);
+	}
+	
 }

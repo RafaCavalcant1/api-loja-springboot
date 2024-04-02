@@ -29,4 +29,9 @@ public class UserService {
 		return objeto.get();
 	}
 	
+	//retorna o usuario salvo 
+	public User insert(User obj) {
+		return repository.save(obj);  // o save ele por padrão d=ja retona o obj salvo 
+	}
+	
 }
