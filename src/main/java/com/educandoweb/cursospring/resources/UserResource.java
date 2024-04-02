@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,14 @@ public class UserResource {
 		obj = service.insert(obj); //chama um serviço da classe UserService  para inserir o objeto User no banco de dados.
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();	// iisso serve para que quando coloque no postman a resposta seja 201 ceated e não 200ok
 		return ResponseEntity.created(uri).body(obj);
+	}
+	
+	
+	@DeleteMapping(value ="/{id}")
+	//void ja que a resposta da requisição não vai retornar nenhum corpo
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		service.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 }

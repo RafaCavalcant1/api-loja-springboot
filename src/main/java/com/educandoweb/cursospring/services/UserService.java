@@ -34,4 +34,9 @@ public class UserService {
 		return repository.save(obj);  // o save ele por padrão d=ja retona o obj salvo 
 	}
 	
+	// deletar um usuario
+	public void delete(Long id) {
+		repository.deleteById(id); // vai deletar o usuario por meio do ID
+	}
+	
 }
