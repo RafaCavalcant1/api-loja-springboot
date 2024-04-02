@@ -7,16 +7,16 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.educandoweb.cursospring.entities.enums.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -43,6 +43,9 @@ public class Order implements Serializable {
 	@OneToMany(mappedBy = "id.order") // um para muitos, coloca id.order pois no OrderItem eu tenho o ID e o ID por sua vez que tem o pedido
 	 // Ignorar a serialização da coleção items na classe OrderItem
 	private Set<OrderItem> items = new HashSet<>();
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL) // NO CADO DO 1 P UM está sendo mapeada as duas entidades para ter o mesmo ID
+	private Payment payment;  //um pedido tem um pagamento
 	
 	public Order() {	
 	}
@@ -97,6 +100,14 @@ public class Order implements Serializable {
 	
 	public void setItems(Set<OrderItem> items) {
 		this.items = items;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 	@Override

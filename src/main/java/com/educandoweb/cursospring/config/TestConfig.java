@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.educandoweb.cursospring.entities.Category;
 import com.educandoweb.cursospring.entities.Order;
 import com.educandoweb.cursospring.entities.OrderItem;
+import com.educandoweb.cursospring.entities.Payment;
 import com.educandoweb.cursospring.entities.Product;
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.entities.enums.OrderStatus;
@@ -97,6 +98,13 @@ public class TestConfig implements CommandLineRunner {
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
+		// adicionando um pagamento no pedido que está como PAID (pago)
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		
+		//para salvar um processo dependente numa relação 1p1 não cria um repository  
+		o1.setPayment(pay1);//chama o pedido 1 associado ao pagament1 1
+		// feito isso vai mandar salvar novamente o PEDIDO e não o pagamento
+		orderRepository.save(o1);
 	}
 
 	
