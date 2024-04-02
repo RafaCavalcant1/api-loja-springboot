@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,9 +43,14 @@ public class Product implements Serializable {
 	inverseJoinColumns = @JoinColumn(name = "category_id"))  // define a chave estrangeira da outra entidade(categorias)
 	private Set<Category> categories = new HashSet<>();
 	
+	@OneToMany(mappedBy = "id.product") // um para muitos, coloca id.order pois no OrderItem eu tenho o ID e o ID por sua vez que tem o pedido
+	// dentro da classe product também tem que ter uma coleção de OrderItem
+	private Set<OrderItem> items = new HashSet<>();
+	
 	public Product() {
 	}
-
+	
+	
 	// não coloca coleções em cinstrutor , no caso private Set<Category> categories = new HashSet<>();
 	public Product(Long id, String name, String description, double price, String imgUrl) {
 		super();
@@ -97,6 +105,15 @@ public class Product implements Serializable {
 		return categories;
 	}
 
+	@JsonIgnore
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		for(OrderItem x : items) { // pecorrendo a coleção items que é do tipo OrderItem
+			set.add(x.getOrder()); // para cada elemento da coleção vai adicionar no conjunt 
+		}
+		return set;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

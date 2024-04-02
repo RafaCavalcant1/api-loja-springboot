@@ -10,6 +10,7 @@ import com.educandoweb.cursospring.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,7 +41,7 @@ public class Order implements Serializable {
 	private User client;
 	
 	@OneToMany(mappedBy = "id.order") // um para muitos, coloca id.order pois no OrderItem eu tenho o ID e o ID por sua vez que tem o pedido
-	@JsonIgnore // Ignorar a serialização da coleção items na classe OrderItem
+	 // Ignorar a serialização da coleção items na classe OrderItem
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Order() {	
@@ -92,8 +93,12 @@ public class Order implements Serializable {
 
 	public Set<OrderItem> getItems(){
 		return items;
-	}
+	}	
 	
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -109,6 +114,11 @@ public class Order implements Serializable {
 			return false;
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", items=" + items + "]";
 	}
 	
 	

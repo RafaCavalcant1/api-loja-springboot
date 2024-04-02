@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.educandoweb.cursospring.entities.Order;
 import com.educandoweb.cursospring.repositories.OrderRepository;
@@ -24,11 +25,15 @@ public class OrderService {
 	}
 	
 	//buscar o usuário pelo id
+	@Transactional
 	public Order findById(Long id) {
 		//cha o repositorio pelo ID mas essa operação retorna um obj OPTIONAL do tipo USER, coloquei objeto como nome da variável
 		Optional<Order> objeto = repository.findById(id);
 		// a operação get do OPTIONAL retorna o obj tipo User que estiver dentro do optional
-		return objeto.get();
+		Order order = objeto.get();
+		
+		System.out.println("ORDER DEPOIS" +  order);
+		return order;
 	}
 	
 }

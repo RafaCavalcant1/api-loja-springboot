@@ -15,7 +15,7 @@ public class ProductService {
 	//para que o spring faça a injeção de dependencia de forma transparente 
 	@Autowired
 	private ProductRepository repository;
-	
+
 	//método para retornar todos os usuários do BD 
 	public List<Product> findAll(){
 		return repository.findAll();
