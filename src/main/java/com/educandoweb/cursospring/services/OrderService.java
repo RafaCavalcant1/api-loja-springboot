@@ -31,8 +31,7 @@ public class OrderService {
 		Optional<Order> objeto = repository.findById(id);
 		// a operação get do OPTIONAL retorna o obj tipo User que estiver dentro do optional
 		Order order = objeto.get();
-		
-		System.out.println("ORDER DEPOIS" +  order);
+		order.getItems().size();  //estamos usando os dados de items, entao isso força que os dados serem buscados no banco de dados
 		return order;
 	}
 	

@@ -88,8 +88,4 @@ public class OrderItem implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	@Override
-	public String toString() {
-		return "OrderItem [id=" + id + ", quantity=" + quantity + ", price=" + price + "]";
-	}
 }

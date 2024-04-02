@@ -135,12 +135,5 @@ public class Order implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", items=" + items + "]";
-	}
-	
-	
-	
 	
 }
