@@ -109,6 +109,14 @@ public class Order implements Serializable {
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
+	
+	public Double getTotal() {
+		double sum = 0.0;
+		for(OrderItem x : items) {  // varre os itens e para todo item adiciona o valor na soma.
+			sum += x.getSubTotal();
+		}
+		return sum;
+	}
 
 	@Override
 	public int hashCode() {

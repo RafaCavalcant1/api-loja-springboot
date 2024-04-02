@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class Payment implements Serializable {
 	private Long id;
 	private Instant moment;
 	
+	@JsonIgnore
 	// mapeamento 1 para 1, essa classe é a dependente pq pode existir pedido sem pagamento, mas não existe o pagamento sem o pedido
 	@OneToOne
 	@MapsId
