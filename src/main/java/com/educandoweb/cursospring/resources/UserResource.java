@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,7 +56,17 @@ public class UserResource {
 	//void ja que a resposta da requisição não vai retornar nenhum corpo
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.noContent().build(); // Após a exclusão, retornamos uma resposta HTTP com status 204 (No Content) utilizando ResponseEntity.noContent().
+		//Esse status indica que a operação de deleção foi realizada com sucesso e que não há conteúdo para ser retornado como resposta.
 	}
+	
+	//para atualizar um recurso
+	@PutMapping(value ="/{id}")
+	public ResponseEntity<User> update(@PathVariable Long id,@RequestBody User obj ){ //os paremetros sao: o id que vai chegar na url e vai recev=ber o obj contendo os dados para atualizar
+		obj = service.update(id, obj); // atualizou 
+		return ResponseEntity.ok().body(obj); 
+	}
+	
+	
 	
 }

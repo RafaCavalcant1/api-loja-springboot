@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.repositories.UserRepository;
@@ -37,6 +38,23 @@ public class UserService {
 	// deletar um usuario
 	public void delete(Long id) {
 		repository.deleteById(id); // vai deletar o usuario por meio do ID
+	}
+	
+	//atualizar um dado do usuario
+	@Transactional
+	public User update(Long id, User obj) { // recebe o id e o novo obj
+		User entity = repository.getReferenceById(id); // getReferenceById(id) prepara o obj monitorado para mexer e dps fazer uma operação com o BD
+		updateData(entity, obj);
+		return repository.save(entity);
+	}
+
+	// atualizar os dados do entity do que cheb=gou com o obj 
+	private void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+		
+		// não vai atualizar o id nem a senha 
 	}
 	
 }
