@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.educandoweb.cursospring.services.exceptions.DatabaseException;
 import com.educandoweb.cursospring.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,4 +25,14 @@ public class ResourceExceptionHandler {
 		StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err); // o metodo vai retornar um ResponseEntity .status é p vim com o codigo personalizado
 	}
+	
+		@ExceptionHandler(DatabaseException.class)//apara que o metodo seja capaz de interseptar a requisição que deu exceção para ele cair aqui
+		//o tipo do obj de resposta vai ser o standardError, o nome do metodo é database e ele tem que receber como argumento  a exceção personalizada e depois o objeto HttpServletRequest(representa uma solicitação HTTP)
+		public ResponseEntity<StandardError>database(DatabaseException e, HttpServletRequest request){
+			String error = "Database error"; // mensagem para o usuário 
+			HttpStatus status = HttpStatus.BAD_REQUEST;// resposta 400 que é o Bad request
+			//instanciando um obj StandardError e colocar os campos, o instante atual, o status , o erro , a menssagem que veio na exceção que ta no parametro e o caminho é o request que tb está no parametro
+			StandardError err = new StandardError(Instant.now(),status.value(), error, e.getMessage(), request.getRequestURI());
+			return ResponseEntity.status(status).body(err); // o metodo vai retornar um ResponseEntity .status é p vim com o codigo personalizado
+		}
 }

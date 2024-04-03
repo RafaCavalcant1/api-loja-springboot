@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.repositories.UserRepository;
+import com.educandoweb.cursospring.services.exceptions.DatabaseException;
 import com.educandoweb.cursospring.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -45,6 +47,8 @@ public class UserService {
 		repository.deleteById(id); // vai deletar o usuario por meio do ID
 		} catch(EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) { // essa exceção é caso a pessoa tente apagar um usuario que esteja ligado a algum pedido
+			throw new DatabaseException(e.getMessage()); //criei uma classe de erro chsmada database para tratar manualmente
 		}
 	}
 	
