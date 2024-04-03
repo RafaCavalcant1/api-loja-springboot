@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.educandoweb.cursospring.entities.User;
 import com.educandoweb.cursospring.repositories.UserRepository;
 import com.educandoweb.cursospring.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service //registra a classe como um componente do spring e permite que ele seja injetado 
 public class UserService {
@@ -38,15 +41,23 @@ public class UserService {
 	
 	// deletar um usuario
 	public void delete(Long id) {
+		try {
 		repository.deleteById(id); // vai deletar o usuario por meio do ID
+		} catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 	
 	//atualizar um dado do usuario
 	@Transactional//para garantir que as operações sejam executadas dentro de uma transação
 	public User update(Long id, User obj) { // recebe o id e o novo obj
-		User entity = repository.getReferenceById(id); // getReferenceById(id) prepara o obj monitorado para mexer e dps fazer uma operação com o BD
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getReferenceById(id); // getReferenceById(id) prepara o obj monitorado para mexer e dps fazer uma operação com o BD
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {  // primeiro eu vi com o RuntimeException qual exceção especifica gerou, que foi EntityNotFoundException
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	// atualizar os dados do entity do que chegou com o obj 
