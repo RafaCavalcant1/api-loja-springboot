@@ -2,6 +2,8 @@ package com.educandoweb.cursospring.resources.exception;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 //para fazer um tratamento manual das exceções com os campos tipo em json que mosra quando gera um erro 
 public class StandardError implements Serializable{
@@ -12,6 +14,7 @@ public class StandardError implements Serializable{
 	private String messageUser;
 	private String message;
 	private String path;
+	private List<Problem> problems = new ArrayList <>();
 	
 	public StandardError(){	
 	}
@@ -64,6 +67,20 @@ public class StandardError implements Serializable{
 	public void setPath(String path) {
 		this.path = path;
 	}
+	
+	public List<Problem> getProblems() {
+        return problems;
+    }
+
+    public void setProblems(List<Problem> problems) {
+        this.problems = problems;
+    }
+    
+    //metodo para adicionar o problema na lista 
+    public void addProblem(String campo, String mensagem) {
+        Problem problem = new Problem(campo, mensagem);
+        this.problems.add(problem);
+    }
 	
 	// não precisa de hashcode pq ão interessa comparar um erro com o outro
 	
